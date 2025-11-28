@@ -4,8 +4,12 @@ if (typeof workoutsData === "undefined") {
 }
 
 // Track current selection
-let currentWeek = "week1";
-let currentDay = "day1";
+// let currentWeek = "week1";
+// let currentDay = "day1";
+
+let currentWeek = localStorage.getItem("currentWeek") || "week1";
+let currentDay = localStorage.getItem("currentDay") || "day1";
+
 
 const exerciseList = document.getElementById("exercise-list");
 const exerciseCount = document.getElementById("exercise-count");
@@ -22,6 +26,14 @@ function saveStatus(week, day, index, done) {
   if (done) localStorage.setItem(key, "completed");
   else localStorage.removeItem(key);
 }
+
+// ✅ Restore saved week/day tab if available
+currentWeek = localStorage.getItem("currentWeek") || "week1";
+currentDay = localStorage.getItem("currentDay") || "day1";
+
+// Initial load
+renderWorkouts(currentWeek, currentDay);
+
 
 // Render workouts
 function renderWorkouts(week, day) {
@@ -55,8 +67,15 @@ function renderWorkouts(week, day) {
     // Add event listener
     const check = card.querySelector(".check-btn");
     check.addEventListener("click", () => {
+	  vibrate(40); // ⭐ short vibration feedback
       const done = card.classList.toggle("completed");
       check.textContent = done ? "✔" : "";
+		// ⭐ Add/remove green highlight
+		if (done) {
+		  check.classList.add("completed");
+		} else {
+		  check.classList.remove("completed");
+		}
       saveStatus(week, day, index, done);
 	  checkDayCompletion(week, day); // ✅ update day & week state
     });
@@ -68,6 +87,40 @@ function renderWorkouts(week, day) {
 });
 
 	exerciseList.appendChild(card);
+	
+	// --- Smooth scroll to last opened exercise ---
+	setTimeout(() => {
+	  const last = localStorage.getItem("lastOpenedExercise");
+	  if (!last) return;
+
+	  const target = [...document.querySelectorAll(".exercise-card")]
+		.find(card => card.querySelector("h4").textContent === last);
+
+	  if (target) {
+	target.scrollIntoView({ behavior: "smooth", block: "center" });
+
+	// ⭐ Add temporary highlight
+	target.classList.add("highlight-glow");
+	setTimeout(() => target.classList.remove("highlight-glow"), 1500);
+	  }
+	}, 300);
+	
+	
+		// --- Auto Jump to Next Incomplete Exercise ---
+	setTimeout(() => {
+	  // Don't auto-jump if returning from selecting an exercise intentionally
+	  const last = localStorage.getItem("lastOpenedExercise");
+
+	  const cards = [...document.querySelectorAll(".exercise-card")];
+	  
+	  // Find the first exercise without the "completed" class
+	  const firstIncomplete = cards.find(card => !card.classList.contains("completed"));
+
+	  if (firstIncomplete && !last) {
+		firstIncomplete.scrollIntoView({ behavior: "smooth", block: "center" });
+	  }
+	}, 400);
+
 
 	
   });
@@ -79,9 +132,14 @@ function renderWorkouts(week, day) {
 // Week tabs
 document.querySelectorAll(".week-btn").forEach(btn => {
   btn.addEventListener("click", () => {
+	//localStorage.removeItem("lastOpenedExercise");  // reset scroll history
     document.querySelectorAll(".week-btn").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
     currentWeek = `week${btn.dataset.week}`;
+
+    // ✅ Save to localStorage
+    localStorage.setItem("currentWeek", currentWeek);
+
     renderWorkouts(currentWeek, currentDay);
   });
 });
@@ -89,12 +147,18 @@ document.querySelectorAll(".week-btn").forEach(btn => {
 // Day tabs
 document.querySelectorAll(".day-btn").forEach(btn => {
   btn.addEventListener("click", () => {
+	//localStorage.removeItem("lastOpenedExercise");  // reset scroll history
     document.querySelectorAll(".day-btn").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
     currentDay = `day${btn.dataset.day}`;
+
+    // ✅ Save to localStorage
+    localStorage.setItem("currentDay", currentDay);
+
     renderWorkouts(currentWeek, currentDay);
   });
 });
+
 
 // Initial load
 renderWorkouts(currentWeek, currentDay);
@@ -122,3 +186,12 @@ function checkWeekCompletion(week) {
     localStorage.setItem(`${week}-completed`, "true");
   }
 }
+
+function vibrate(ms) {
+  if (navigator.vibrate) {
+    navigator.vibrate(ms);
+  }
+}
+
+
+document.querySelector('.tab-btn[data-tab="log"]').click();
