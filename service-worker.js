@@ -29,6 +29,6 @@ self.addEventListener("fetch", (event) => {
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
   event.waitUntil(
-    clients.openWindow("https://github.com/get2okey/fitlife.git/workouts.html")
+    clients.openWindow("https://get2okey.github.io/fitlife/workouts.html")
   );
 });
