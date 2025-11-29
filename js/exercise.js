@@ -65,6 +65,36 @@ function getMostRecentLog() {
 function buildSets() {
   setsContainer.innerHTML = "";
   const previous = getMostRecentLog();
+	  
+	  // --- Rest timer block (1:30 default) ---
+	// REST BLOCK UI
+	const restBlock = document.createElement("div");
+	restBlock.innerHTML = `
+	  <div class="rest-card">
+		  <div>
+			  <h2>Rest</h2>
+			   <p id="rest-timer-text">for 1:30 min</p>
+		  </div>
+		  <button id="rest-play" class="rest-play-btn">▶</button>
+	  </div>
+	  <p class="rest-sub">Rest between each set</p>
+	`;
+	setsContainer.appendChild(restBlock);
+
+	
+	
+	// Attach play button after UI is inserted
+	setTimeout(() => {
+	  const playBtn = document.getElementById("rest-play");
+	  playBtn.addEventListener("click", () => {
+		if (!restInterval) startRest();
+		else stopRest();
+		vibrate(40);
+	  });
+	}, 20);
+
+
+  
 
   for (let i = 1; i <= TOTAL_SETS; i++) {
     const wrapper = document.createElement("div");
@@ -143,11 +173,66 @@ function buildSets() {
       }
       vibrate(40);
       updateFooterText();
+	  
+	  // AUTO START REST TIMER WHEN A SET IS COMPLETED (except final set)
+		const setIndex = i;  
+		if (!pressed && setIndex < TOTAL_SETS) {
+			startRest();  
+		}
+	  
     });
   }
 
   updateFooterText();
 }
+
+
+let restInterval = null;
+let restSeconds = 90; // 1:30
+
+function formatRest(sec) {
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return `${m}:${String(s).padStart(2, "0")}`;
+}
+
+function startRest() {
+  const playBtn = document.getElementById("rest-play");
+  const timeText = document.getElementById("rest-timer-text"); // <--- REQUIRED
+  playBtn.textContent = "⏸";
+
+  restInterval = setInterval(() => {
+    restSeconds--;
+
+    // ✅ Update visible countdown
+    timeText.textContent = `for ${formatRest(restSeconds)} min`;
+
+    if (restSeconds <= 0) {
+      clearInterval(restInterval);
+      restInterval = null;
+      restSeconds = 90;
+
+      timeText.textContent = "for 1:30 min";
+      playBtn.textContent = "▶";
+      vibrate(120);
+      alert("Rest complete");
+    }
+  }, 1000);
+}
+
+function stopRest() {
+  const playBtn = document.getElementById("rest-play");
+  const timeText = document.getElementById("rest-timer-text");
+
+  clearInterval(restInterval);
+  restInterval = null;
+
+  restSeconds = 90;
+  timeText.textContent = "for 1:30 min"; // Reset text
+  playBtn.textContent = "▶";
+}
+
+
 
 
 // --- Update footer message depending on ticks ---

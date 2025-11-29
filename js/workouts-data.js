@@ -111,8 +111,8 @@ const workoutsData = {
 };
 
 // Clone week1 workouts into week2–4
-["week2", "week3", "week4"].forEach(week => {
-  workoutsData[week].day1 = JSON.parse(JSON.stringify(workoutsData.week1.day1));
-  workoutsData[week].day2 = JSON.parse(JSON.stringify(workoutsData.week1.day2));
-  workoutsData[week].day3 = JSON.parse(JSON.stringify(workoutsData.week1.day3));
-});
+//["week2", "week3", "week4"].forEach(week => {
+//  workoutsData[week].day1 = JSON.parse(JSON.stringify(workoutsData.week1.day1));
+//  workoutsData[week].day2 = JSON.parse(JSON.stringify(workoutsData.week1.day2));
+//  workoutsData[week].day3 = JSON.parse(JSON.stringify(workoutsData.week1.day3));
+//});
