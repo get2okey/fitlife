@@ -1051,3 +1051,122 @@ textarea#user-note {
 /* helpers */
 .hidden { display:none !important; }
 .center { text-align:center; }
+
+
+.prev-text {
+  text-align: center;
+  width: 100%;
+  font-size: 14px;
+  color: #666;
+  margin-top: 6px;
+}
+
+.rest-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 3px solid #26C536;
+  border-radius: 20px;
+  padding: 18px 20px;
+  margin-bottom: 10px;
+  background: #f8fff8;
+}
+
+.rest-card h2 {
+  margin: 0;
+  font-size: 28px;
+  color: #26C536;
+  font-weight: 700;
+}
+
+.rest-card p {
+  margin: 0;
+  font-size: 18px;
+  color: #26C536;
+  font-weight: 600;
+}
+
+.rest-play-btn {
+  width: 55px;
+  height: 55px;
+  background: #26C536;
+  border-radius: 50%;
+  border: none;
+  font-size: 30px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rest-sub {
+  text-align: center;
+  color: #26C536;
+  margin: 10px 0;
+  font-weight: 600;
+}
+
+
+/* VIDEO HEADER */
+.video-header {
+  width: 100%;
+  position: relative;
+}
+
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  height: 260px;
+  overflow: hidden;
+}
+
+.video-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Center circular play button */
+.video-play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border: none;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  font-size: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+}
+
+/* Info overlay (bottom left same as screenshot) */
+.video-info-box {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  color: white;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.6);
+}
+
+.video-text {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.video-type-badge {
+  margin-top: 6px;
+  display: inline-block;
+  background: #E53039;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+}
