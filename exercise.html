@@ -14,14 +14,33 @@
   </header>
 
   <main id="exercise-details">
-    <div class="exercise-video">
-      <img id="exercise-image" src="assets/images/placeholder.jpg" alt="Exercise Image">
-      <div class="overlay-info">
-        <p id="exercise-reps">Reps 10/10/10</p>
-        <p id="exercise-tempo">Tempo 3010</p>
-        <span id="exercise-type" class="badge">Normal Set</span>
-      </div>
-    </div>
+	
+	
+	<!-- VIDEO HEADER SECTION -->
+	
+	<div class="video-header">
+	  <div class="video-wrapper">
+	<!--	<img id="exercise-video-thumb" src="assets/videos/placeholder.jpg" class="video-thumb">  -->
+		
+		<video id="exercise-video" class="video-thumb" controls>
+		  <source src="assets/videos/placeholder.mp4" type="video/mp4">
+		  Your browser does not support the video tag.
+
+		</video>		
+
+		  
+		  		<!-- Play Button -->
+		<button id="video-play-btn" class="video-play-btn">▶</button>
+
+		<!-- Video Info -->
+		<div class="video-info-box">
+		  <p id="video-reps" class="video-text">Reps 10/10/10</p>
+		  <p id="video-tempo" class="video-text">Tempo 3010</p>
+		  <span id="video-type" class="video-type-badge">Normal Set</span>
+		</div>
+	  </div>
+	</div>
+
 
     <h3 id="exercise-muscle">Muscles: Back</h3>
 
